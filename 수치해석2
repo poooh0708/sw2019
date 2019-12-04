@@ -1,0 +1,27 @@
+
+
+function y = exp_2017111727(s,e,num_d,a,n)
+x = linspace(s,e,num_d);
+y = zeros(size(x));
+
+for j=1:num_d %전체 반복...
+    w = dif(a,0);
+    for i=1:n
+        w = w+ (dif(a,i)*((x(j)-a)^i)/factorial(i));
+    end
+    y(j)=w;
+end
+
+plot(x,y,'--ro','LineWidth', 4);
+
+end
+
+%function f : differential 구하는 함수.
+function f = dif(z,n)
+    f = exp(-z);
+    if (n~=0)
+        for k=1:n
+            f=f*(-1);
+        end
+    end
+end
