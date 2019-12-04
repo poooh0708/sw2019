@@ -69,3 +69,4 @@ function [eig_val,eig_vec] = findMax(M,es,maxit)
    eig_vec=vec;
 end
 
+.
