@@ -1,0 +1,71 @@
+
+function [x,y] = power_2017111727(M, es, maxit)
+
+%determine whether it is square matrix
+A = size(M);
+if(A(1)==A(2))  %if it is square
+    
+   %determine whether it is symmetric matrix
+   tf = issymmetric(M);
+   if(tf == 1)  %if it is symmetric
+       
+      %choose max or min
+      p = input('Eigen value: the 1. largest   2. smallest   ?');
+      %max
+      if(p==1) 
+         [x,y] = findMax(M,es,maxit);
+      
+      %min
+      elseif(p==2)
+         M=inv(M);  
+         [x,y]= findMax(M,es,maxit);
+         x = 1/x;
+         
+     %다른 숫자 넣었을때
+      else
+          fprintf('1 or 2!!'), return
+      end
+   
+   %symmetric 아닐 때    
+   else
+       fprintf('symmetric 배열을 넣어주세요')
+   end
+   
+%정방행렬 아닐 때   
+else
+    fprintf('정방행렬 형태로 넣어주세요.')
+end
+
+end
+
+function [eig_val,eig_vec] = findMax(M,es,maxit)
+
+  a=ones(size(M));
+  z0= a(:,1); %초기 z0
+   i = 1; %iteration 1부터 시작
+   xr_new = 0;
+   
+   while(i<=maxit)  %iteration 이 maxit 보다 적을때 까지
+        xr_old = xr_new;
+         z= M*z0; 
+         [~,l]=max(abs(z));
+         xr_new = z(l(1),1);
+         vec=z0;
+         z0 = z/xr_new; 
+        
+      if(xr_old~=0)
+          %ea 계산
+         ea = abs((xr_new-xr_old)/xr_new)*100;
+        
+        if(ea<=es)      
+            break ; %escape condition...
+      
+        end
+      end
+      
+      i = i+1;
+   end
+   eig_val=xr_new;
+   eig_vec=vec;
+end
+
